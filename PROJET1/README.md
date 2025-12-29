@@ -1,195 +1,136 @@
-##  README — Proof of Concept (POC)
-Analyse automatisée des évaluations de formation
+# POC – Analyse automatisée des évaluations de formation
 
-Think To Deploy – Safran
+Proof of Concept réalisé dans le cadre du programme **Think To Deploy (T2D)** – Safran.  
+Ce projet vise à démontrer la faisabilité d’une analyse automatisée des évaluations de formation à l’aide de workflows, d’IA et de visualisation de données.
 
-##  Contexte et objectif du POC
+---
 
-Dans le cadre du programme Think To Deploy (T2D), Safran souhaite explorer des solutions basées sur l’IA et la Data Science afin d’améliorer l’exploitation des évaluations « à chaud » des formations.
-Ce Proof of Concept (POC) vise à démontrer la faisabilité technique, la valeur métier et la capacité d’industrialisation d’une solution permettant :
-d’automatiser l’analyse des évaluations de formation,
-d’exploiter à la fois les données quantitatives et les commentaires libres,
-d’intégrer une analyse de sentiment multilingue (français, anglais, arabe, darija),
-de restituer des insights exploitables via un dashboard dynamique,
-tout en respectant les contraintes de sécurité, de confidentialité et de non-intrusion dans le SI Safran.
+## Objectif
 
-##  Périmètre du POC
-##   Fonctionnalités couvertes
+- Automatiser l’analyse des évaluations de formation
+- Exploiter les données quantitatives et les commentaires libres
+- Intégrer une analyse de sentiment multilingue (FR / EN / AR / Darija)
+- Produire des indicateurs exploitables via un dashboard
+- Proposer une architecture modulaire et industrialisable
 
-Le POC couvre les fonctionnalités suivantes :
-Collecte automatisée des évaluations via formulaire
-Normalisation et structuration des données
-Génération d’identifiants uniques d’évaluation
-Analyse statistique des critères de formation
-Analyse de sentiment multilingue des commentaires libres
-Traitement spécifique des commentaires longs
-Stockage centralisé des résultats
-Visualisation dynamique via Power BI
+---
 
-##   Hors périmètre
+## Architecture (vue d’ensemble)
 
-Les éléments suivants ne sont pas inclus dans ce POC :
-Intégration directe au SI Safran
-Utilisation de données réelles Safran
-Authentification LDAP / SSO
-Déploiement industriel en production
-##   Architecture globale de la solution
+- **Formulaire** : collecte des évaluations
+- **n8n** : orchestration du workflow
+- **Python** : traitement des données
+- **APIs IA** :
+  - Hugging Face (multilingue)
+  - API Darija dédiée (Dockerisée)
+- **Google Sheets** : base de données POC
+- **Power BI** : visualisation
 
-La solution repose sur une architecture modulaire, découplée et industrialisable, composée des briques suivantes :
-Formulaire d’évaluation : point d’entrée des données
-n8n : orchestration du workflow automatisé
-Scripts Python : traitement des données et logique métier
-APIs IA :
-API Hugging Face pour l’analyse multilingue
-API dédiée FastAPI pour la darija
-Base de données POC : Google Sheets
-Restitution : Dashboard Power BI connecté dynamiquement
-Cette architecture garantit :
-l’absence d’accès direct au SI Safran,
-la séparation claire des composants,
-la facilité d’évolution vers un déploiement sécurisé.
+> ⚠️ Aucun accès direct au SI Safran – environnement POC isolé.
 
-##   Description détaillée du workflow automatisé
+---
 
-Le workflow, orchestré via n8n, couvre l’ensemble du cycle de traitement des évaluations :
-##  Collecte des données
-Le workflow est déclenché à la soumission du formulaire d’évaluation, qui collecte :
-le type de formation,
-le formateur,
-les évaluations quantitatives,
-le commentaire libre,
-la langue,
-la date de soumission.
-Les réponses qualitatives (« Très insatisfaisant » à « Très satisfait ») sont automatiquement converties en scores numériques de 1 à 5.
+## Workflow automatisé (n8n)
 
-##   Enrichissement et normalisation
+1. Réception des réponses du formulaire
+2. Normalisation des données
+3. Génération des identifiants :
+   - `formation_id`
+   - `formateur_id`
+   - `evaluation_id`
+4. Routage intelligent selon la langue
+5. Analyse de sentiment
+6. Stockage des résultats dans Google Sheets
+7. Mise à jour automatique du dashboard Power BI
 
-Plusieurs mécanismes d’enrichissement sont appliqués :
-Formation ID
-Attribution automatique d’un formation_id à partir du type de formation.
-(Hypothèse POC : un type de formation = un identifiant)
-Formateur ID
-Récupération du formateur_id via un Google Sheet de référence.
-Evaluation ID
-Génération d’un identifiant unique (A + 8 chiffres) garantissant l’unicité et la traçabilité.
+---
 
-##   Stockage centralisé
+## Analyse de sentiment
 
-Les données sont structurées selon le schéma suivant :
-evaluation_id
-formation_id
-type_formation
-formateur_id
-satisfaction
-contenu
-logistique
-applicabilite
-commentaire
-langue
-date
-sentiment
-Elles sont ensuite stockées dans une base centrale (Google Sheets) servant de socle unique pour l’analyse et la visualisation.
+### Langues supportées
+- Français
+- Anglais
+- Arabe standard
+- Darija
 
-##  Routage intelligent pour l’analyse de sentiment
+### Logique
+- FR / EN / AR → modèles multilingues Hugging Face
+- Darija → API dédiée
 
-Le workflow intègre une logique conditionnelle basée sur la langue :
-Darija
-Envoi du commentaire vers une API FastAPI dédiée
-Analyse via un modèle Hugging Face spécialisé
-Français / Anglais / Arabe standard
-Analyse via un modèle multilingue Hugging Face
-Gestion des commentaires longs
-Seuil : 480 caractères
-Découpage automatique en fragments cohérents
-Analyse indépendante de chaque fragment
-Agrégation par moyenne pour produire un sentiment global fiable
-##  Création de l’API d’analyse de sentiment Darija
-##   Problématique
+### Commentaires longs
+- Découpage > 480 caractères
+- Analyse par fragment
+- Agrégation par moyenne
 
-Le modèle BenhamdaneNawfal/sentiment-analysis-darija n’étant pas déployé par un fournisseur d’inférence standard, une API dédiée a été développée pour l’exposer et l’intégrer au pipeline.
+---
 
-##   Mise en place technique
+## API Darija (Docker)
 
-Création d’un projet Python isolé
-Environnement virtuel (venv)
-Installation des dépendances :
-FastAPI
-Uvicorn
-Torch
-Transformers
+Le modèle `BenhamdaneNawfal/sentiment-analysis-darija` est exposé via une API FastAPI **containerisée**.
 
-##  Développement de l’API
 
-L’API FastAPI :
-charge le modèle une seule fois au démarrage,
-expose l’endpoint POST /sentiment/darija,
-retourne un sentiment (Positive / Negative) et un class_id.
-##   Déploiement et accès réseau
+## Configuration & Data sources
 
-L’API est lancée via Uvicorn et exposée sur le réseau local.
-L’utilisation de l’IP locale permet à n8n d’y accéder sans conflit (127.0.0.1 non accessible).
+Le POC s’appuie sur deux Google Sheets externes servant de sources de référence et de stockage.
+Ces documents ne sont **pas versionnés** dans le repository et restent découplés du code.
 
-##   Intégration avec n8n
+### 1. Référentiel formateurs
 
-Un HTTP Request Node est utilisé dans n8n :
-Méthode : POST
-Body JSON : commentaire Darija
-Réception automatique du sentiment analysé
-Les résultats sont ensuite stockés dans la base centrale.
+Google Sheet utilisé comme table de correspondance entre les formateurs et leurs identifiants.
 
-##   Visualisation et insights via Power BI
+- Contenu :
+  - `formateur_id`
+  - `nom_formateur`
+- Utilisation :
+  - Résolution automatique du `formateur_id` dans le workflow n8n
 
-Un dashboard Power BI connecté dynamiquement à la base permet :
-le suivi des indicateurs clés (satisfaction, contenu, logistique, applicabilité),
-l’analyse des tendances temporelles,
-la visualisation de la distribution des sentiments,
-la comparaison par formateur et type de formation,
-la détection de signaux faibles,
-l’identification d’axes d’amélioration exploitables.
-Toute nouvelle évaluation est automatiquement prise en compte.
+🔗 Lien :  
+👉 **[Google Sheet – Référentiel formateurs](https://docs.google.com/spreadsheets/d/1wtgV75fivrMk-QbPD3ThmEmxd8_wRaEIktGmlS0B_WY/edit?usp=sharing)**
 
-##  Technologies utilisées
+---
 
-n8n – Orchestration des workflows
-Python – Traitement des données et IA
-FastAPI – Exposition de modèles IA
-Hugging Face Transformers
-Google Sheets – Base de données POC
-Power BI – Visualisation
-LaTeX – Rapport final
+### 2. Base centrale des évaluations
 
-##   Instructions de lancement du POC
+Google Sheet servant de base de données POC pour le stockage des évaluations enrichies et analysées.
 
-Créer les Google Sheets de référence
-Configurer le formulaire d’évaluation
-Importer et activer le workflow n8n
-Lancer l’API FastAPI Darija
-Configurer les clés API Hugging Face
-Connecter Power BI à la base centrale
-Soumettre des évaluations de test
+- Contenu :
+  - données quantitatives
+  - commentaires libres
+  - langue
+  - sentiment
+  - métadonnées (date, ids, etc.)
+- Utilisation :
+  - alimentation du dashboard Power BI
+  - suivi dynamique des indicateurs
 
-##   Limites du POC
+🔗 Lien :  
+👉 **[Google Sheet – Base centrale des évaluations](https://docs.google.com/spreadsheets/d/18iZnNQu2acAME7AgxIMKLSKSdd765H2kEdhqqYZbh-M/edit?usp=sharing)**
 
-Hypothèses simplificatrices sur les formations
-Modèles non fine-tunés sur données Safran
-Sécurité simulée
-Environnement non productif
 
-##  . Vision d’évolution vers la production
+### Image Docker
+soufianeech/b2c-web:latest
 
-Référentiel formations et sessions
-Hébergement sécurisé (on-premise / cloud Safran)
-Authentification et contrôle d’accès
-Journalisation et auditabilité
-Enrichissement NLP (topics, clustering)
-Industrialisation du pipeline
 
-##   Valeur métier pour Safran
+## Utilisation
 
-La solution permet :
+### 1. Formulaire d’évaluation
+🔗 **Formulaire** : [Accéder au formulaire](https://n8ncourse.echchafiy.cfd/form/c8ae436f-74f8-45ff-9b3c-ea758d1ee0c0)
 
-un gain de temps significatif pour les équipes RH,
-une exploitation intelligente des retours collaborateurs,
-une amélioration continue des formations,
-une prise de décision data-driven,
-une architecture prête à être industrialisée.
+L’utilisateur remplit et soumet le formulaire.  
+Aucune autre action n’est requise.
+
+---
+
+### 2. Traitement automatique
+
+À chaque soumission :
+- les données sont collectées et normalisées,
+- l’analyse de sentiment est exécutée automatiquement,
+- les résultats sont stockés dans la base centrale,
+- le dashboard est mis à jour.
+
+---
+
+
+Le dashboard est connecté dynamiquement à la base de données.
+Toute nouvelle évaluation ou modification est prise en compte automatiquement.

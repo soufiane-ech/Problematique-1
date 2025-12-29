@@ -755,7 +755,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "http://172.23.32.1:8000/sentiment/darija",
+        "url": "http://host.docker.internal:8000/sentiment/darija",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={\n  \"text\": \"{{ $json.commentaire }}\"\n} ",

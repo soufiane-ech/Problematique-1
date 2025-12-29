@@ -220,7 +220,7 @@
           "parameters": [
             {
               "name": "Authorization",
-              "value": "Bearer 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"
+              "value": "Your Access Token"
             },
             {
               "name": "Content-Type",
@@ -553,7 +553,7 @@
           "parameters": [
             {
               "name": "Authorization",
-              "value": "Bearer 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"
+              "value": "Your Access Token"
             },
             {
               "name": "Content-Type",

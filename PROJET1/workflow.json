@@ -1,0 +1,1337 @@
+{
+  "name": "evaluation",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "evaluation de formation",
+        "formDescription": "Merci d’évaluer la formation suivie.\nVotre avis nous aide à améliorer la qualité de nos formations.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "type_formation",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Techniques"
+                  },
+                  {
+                    "option": "Soft Skills"
+                  },
+                  {
+                    "option": "HSE"
+                  },
+                  {
+                    "option": "Lean Six Sigma"
+                  },
+                  {
+                    "option": "SAP"
+                  },
+                  {
+                    "option": "Supply Chain"
+                  },
+                  {
+                    "option": "Data / Digitalisation"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "nom du formateur",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Ahmed El Mansouri"
+                  },
+                  {
+                    "option": "Mohammed Ben Ali"
+                  },
+                  {
+                    "option": "Ali El Amrani"
+                  },
+                  {
+                    "option": "Youssef Berrada"
+                  },
+                  {
+                    "option": "Abdellah El Fassi"
+                  },
+                  {
+                    "option": "Khalid Ait Lahcen"
+                  },
+                  {
+                    "option": "Said Chafik"
+                  },
+                  {
+                    "option": "Ibrahim El Idrissi"
+                  },
+                  {
+                    "option": "Omar Ben Salah"
+                  },
+                  {
+                    "option": "Hassan Rahmani"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Niveau de satisfaction globale",
+              "fieldType": "radio",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Très insatisfaisant"
+                  },
+                  {
+                    "option": "Insatisfaisant"
+                  },
+                  {
+                    "option": "Neutre"
+                  },
+                  {
+                    "option": "Satisfait"
+                  },
+                  {
+                    "option": "Très satisfait"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "la qualité du contenu pédagogique",
+              "fieldType": "radio",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Très insatisfaisant"
+                  },
+                  {
+                    "option": "Insatisfaisant"
+                  },
+                  {
+                    "option": "Neutre"
+                  },
+                  {
+                    "option": "Satisfait"
+                  },
+                  {
+                    "option": "Très satisfait"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "la logistique ",
+              "fieldType": "radio",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Très insatisfaisant"
+                  },
+                  {
+                    "option": "Insatisfaisant"
+                  },
+                  {
+                    "option": "Neutre"
+                  },
+                  {
+                    "option": "Satisfait"
+                  },
+                  {
+                    "option": "Très satisfait"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Niveau d’applicabilité de la formation au poste de travail",
+              "fieldType": "radio",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Très insatisfaisant"
+                  },
+                  {
+                    "option": "Insatisfaisant"
+                  },
+                  {
+                    "option": "Neutre"
+                  },
+                  {
+                    "option": "Satisfait"
+                  },
+                  {
+                    "option": "Très satisfait"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "langue",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "francais"
+                  },
+                  {
+                    "option": "anglais"
+                  },
+                  {
+                    "option": "arab"
+                  },
+                  {
+                    "option": "darija"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "commentaire",
+              "fieldType": "textarea",
+              "placeholder": "Ajoutez un commentaire"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -384,
+        16
+      ],
+      "id": "9638869b-eab7-4f7c-9bfe-85dc92b70f4d",
+      "name": "On form submission",
+      "webhookId": "c8ae436f-74f8-45ff-9b3c-ea758d1ee0c0"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://router.huggingface.co/hf-inference/models/tabularisai/multilingual-sentiment-analysis",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "inputs",
+              "value": "={{ $json.commentaire }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1760,
+        32
+      ],
+      "id": "86a89d3a-aa82-48c0-b046-21e108ce7b9f",
+      "name": "Sentiment analysis API"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"{{ $json['0'].label }}\": {{ $json['0'].score }},\n  \"{{ $json['1'].label }}\": {{ $json['1'].score }},\n  \"{{ $json['2'].label }}\": {{ $json['2'].score }},\n  \"{{ $json['3'].label }}\":{{ $json['3'].score }} ,\n  \"{{ $json['4'].label }}\": {{ $json['4'].score }}\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2000,
+        32
+      ],
+      "id": "581856e7-e232-4820-b4b5-7338f8d69045",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "# n8n fournit automatiquement la variable \"items\"\n# On travaille sur le premier item\ndata = items[0][\"json\"]\n\nvery_positive = float(data.get(\"Very Positive\", 0))\npositive = float(data.get(\"Positive\", 0))\nneutral = float(data.get(\"Neutral\", 0))\nnegative = float(data.get(\"Negative\", 0))\nvery_negative = float(data.get(\"Very Negative\", 0))\n\npositive_sum = very_positive + positive\nnegative_sum = negative + very_negative\nneutral_value = neutral\n\nsentiments = {\n    \"positive\": positive_sum,\n    \"negative\": negative_sum,\n    \"neutral\": neutral_value\n}\n\ndominant_sentiment = max(sentiments, key=sentiments.get)\n\nreturn [\n    {\n        \"positive\": positive_sum,\n        \"negative\": negative_sum,\n        \"neutral\": neutral_value,\n        \"dominant_sentiment\": dominant_sentiment,\n        \"score\": sentiments[dominant_sentiment]\n    }\n]\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2208,
+        32
+      ],
+      "id": "4d867679-2038-453e-b165-91580f3fe2b8",
+      "name": "Code in Python (Beta)1"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "data = items[0][\"json\"]\n\ntype_formation = data.get(\"type_formation\", \"\").strip()\n\nmapping = {\n    \"Techniques\": \"id1\",\n    \"HSE\": \"id2\",\n    \"Lean Six Sigma\": \"id3\",\n    \"SAP\": \"id4\",\n    \"Soft Skills\": \"id5\",\n    \"Supply Chain\": \"id6\",\n    \"Data / Digitalisation\": \"id7\"\n}\n\nformation_id = mapping.get(type_formation, \"unknown\")\n\nreturn [{\n    \"type_formation\": type_formation,\n    \"formation_id\": formation_id\n}]\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -192,
+        16
+      ],
+      "id": "311c01c9-ffcc-4e2d-81b7-01d1b3944502",
+      "name": "formation_id"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "import random\nimport string\n\n\ndef generate_evaluation_id(existing_ids):\n    while True:\n        new_id = \"A\" + \"\".join(random.choices(string.digits, k=8))\n        if new_id not in existing_ids:\n            return new_id\n\n\n# ======================\n# INPUT n8n\n# ======================\ninput_items = items\n\n\n# ======================\n# Extraire les IDs existants\n# ======================\nexisting_ids = set()\n\nfor item in input_items:\n    eval_id = item[\"json\"].get(\"evaluation_id\")\n    if eval_id:\n        existing_ids.add(eval_id)\n\n\n# ======================\n# Générer TOUJOURS un ID\n# ======================\nnew_evaluation_id = generate_evaluation_id(existing_ids)\n\n\n# ======================\n# OUTPUT n8n\n# ======================\nreturn [\n    {\n        \"json\": {\n            \"evaluation_id\": new_evaluation_id\n        }\n    }\n]\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        16
+      ],
+      "id": "3b9fdd5f-f7d7-4a61-b414-093b5b072849",
+      "name": "evaluation_id"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0f08ae9e-079d-472e-9ec0-2ba99bb063a6",
+              "name": "evaluation_id",
+              "value": "={{ $json.evaluation_id }}",
+              "type": "string"
+            },
+            {
+              "id": "19735095-5212-4886-8070-2787e64277ce",
+              "name": "formation_id",
+              "value": "={{ $('formation_id').first().json.formation_id }}",
+              "type": "string"
+            },
+            {
+              "id": "cfdb7993-5163-4465-bd0e-042c51577255",
+              "name": "type_formation",
+              "value": "={{ $('On form submission').first().json.type_formation }}",
+              "type": "string"
+            },
+            {
+              "id": "7974f127-8e1b-48fe-ad47-7f76e132d9b7",
+              "name": "formateur_id",
+              "value": "={{ $('Get formateur_id').first().json.Formateur_ID }}",
+              "type": "string"
+            },
+            {
+              "id": "866c1656-1fd3-4f15-a85a-09e1c3d3a153",
+              "name": "satisfaction",
+              "value": "={{ \n  ({\n    \"Très insatisfaisant\": 1,\n    \"Insatisfaisant\": 2,\n    \"Neutre\": 3,\n    \"Satisfait\": 4,\n    \"Très satisfait\": 5\n  })[$('On form submission').first().json['Niveau de satisfaction globale']] || null\n}}",
+              "type": "string"
+            },
+            {
+              "id": "cf1a2efb-5089-4851-8bb7-1b2f759c6b5e",
+              "name": "contenu",
+              "value": "={{ \n  ({\n    \"Très insatisfaisant\": 1,\n    \"Insatisfaisant\": 2,\n    \"Neutre\": 3,\n    \"Satisfait\": 4,\n    \"Très satisfait\": 5\n  })[$('On form submission').first().json['la qualité du contenu pédagogique']] || null\n}}",
+              "type": "string"
+            },
+            {
+              "id": "8f024fd9-4188-4dd2-985c-320df216c15e",
+              "name": "logistique",
+              "value": "={{ \n  ({\n    \"Très insatisfaisant\": 1,\n    \"Insatisfaisant\": 2,\n    \"Neutre\": 3,\n    \"Satisfait\": 4,\n    \"Très satisfait\": 5\n  })[$('On form submission').first().json['la logistique ']] || null\n}}",
+              "type": "string"
+            },
+            {
+              "id": "533c040e-d96c-4e9b-a667-9057fd475d6e",
+              "name": "applicabilite",
+              "value": "={{ \n  ({\n    \"Très insatisfaisant\": 1,\n    \"Insatisfaisant\": 2,\n    \"Neutre\": 3,\n    \"Satisfait\": 4,\n    \"Très satisfait\": 5\n  })[$('On form submission').first().json['Niveau d’applicabilité de la formation au poste de travail']] || null\n}}",
+              "type": "string"
+            },
+            {
+              "id": "546131f1-e944-44e9-a856-977377f5b51f",
+              "name": "commentaire",
+              "value": "={{ $('On form submission').first().json.commentaire }}",
+              "type": "string"
+            },
+            {
+              "id": "088d5a6f-9c31-4bf2-986b-b2d2c485c41d",
+              "name": "langue",
+              "value": "={{    $('On form submission').first().json.langue === 'francais' ? 'FR' :   $('On form submission').first().json.langue === 'anglais'  ? 'EN' :   $('On form submission').first().json.langue === 'arab'     ? 'AR' :   $('On form submission').first().json.langue === 'darija'   ? 'DA' :   '' }}",
+              "type": "string"
+            },
+            {
+              "id": "0c08f1bf-4540-4322-b367-db43013f195d",
+              "name": "submittedAt",
+              "value": "={{ new Date($('On form submission').first().json.submittedAt).toISOString().slice(0,10).split('-').reverse().join('/') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        16
+      ],
+      "id": "c1e27f7d-a521-4c01-8db6-c4b9548efdd9",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "59d492d5-ecc1-4d04-bdef-89ce9be0a926",
+                    "leftValue": "={{ $json.commentaire }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "empty"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json[\"commentaire\"].length }}",
+                    "rightValue": 480,
+                    "operator": {
+                      "type": "number",
+                      "operation": "lt"
+                    },
+                    "id": "5294b742-ff23-4b18-8787-88cc5ac10994"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "short"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "785a3faa-4094-4c24-8364-5b9787de3117",
+                    "leftValue": "={{ $json[\"commentaire\"].length }}",
+                    "rightValue": 480,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gt"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "long"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1440,
+        16
+      ],
+      "id": "eeac0371-658d-499d-a3a0-4cca1c2c8439",
+      "name": "Check review"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"{{ $json[0].label }}\":{{ $json[0].score }},\n  \"{{ $json[1].label }}\":{{ $json[1].score }},\n  \"{{ $json[2].label }}\":{{ $json[2].score }},\n  \"{{ $json[3].label }}\":{{ $json[3].score }},\n  \"{{ $json[4].label }}\":{{ $json[4].score }},\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2000,
+        224
+      ],
+      "id": "f66a6a48-e4ed-442d-97a1-a98fc04ab80a",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "average",
+              "field": "Very Positive"
+            },
+            {
+              "aggregation": "average",
+              "field": "Positive"
+            },
+            {
+              "aggregation": "average",
+              "field": "Neutral"
+            },
+            {
+              "aggregation": "average",
+              "field": "Negative"
+            },
+            {
+              "aggregation": "average",
+              "field": "Very Negative"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        2160,
+        224
+      ],
+      "id": "61da4d44-42b2-49ef-81a6-6873b5c6a9c4",
+      "name": "Summarize"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "# Constante pour la taille maximale d'un chunk\nMAX_CHARS = 480\n\ndef split_text_into_chunks(text, max_chars=MAX_CHARS):\n    \"\"\"\n    Divise un texte long en plusieurs morceaux sans couper les mots.\n    Chaque morceau ne dépasse pas max_chars caractères.\n    \"\"\"\n    words = text.split()\n    chunks = []\n    current_chunk = \"\"\n\n    for word in words:\n        # +1 pour l'espace entre les mots\n        if len(current_chunk) + len(word) + 1 <= max_chars:\n            current_chunk += (\" \" if current_chunk else \"\") + word\n        else:\n            chunks.append(current_chunk)\n            current_chunk = word\n\n    if current_chunk:\n        chunks.append(current_chunk)\n\n    return chunks\n\n\n# Ici on récupère le champ 'commentaire' au lieu de 'text'\ncommentaire = items[0].get(\"json\", {}).get(\"commentaire\", \"\")\n\nif not commentaire:\n    return []  # Rien à faire s'il n'y a pas de commentaire\n\nchunks = split_text_into_chunks(commentaire)\n\n# Construire la sortie pour n8n\noutput = [{\"json\": {\"chunk\": chunk, \"original_commentaire\": commentaire}} for chunk in chunks]\n\nreturn output\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1648,
+        224
+      ],
+      "id": "ffed3d5d-5896-46e8-8808-7ee4161cdf04",
+      "name": "Split long review"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://router.huggingface.co/hf-inference/models/tabularisai/multilingual-sentiment-analysis",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "inputs",
+              "value": "={{ $json.chunk }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1824,
+        224
+      ],
+      "id": "e6c1a384-e414-47ff-a60b-f0c0868835c8",
+      "name": "Sentiment analysis API1"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "# n8n fournit automatiquement la variable \"items\"\n# On travaille sur le premier item\ndata = items[0][\"json\"]\n\nvery_positive = float(data.get(\"average_Very_Positive\", 0))\npositive = float(data.get(\"average_Positive\", 0))\nneutral = float(data.get(\"average_Neutral\", 0))\nnegative = float(data.get(\"average_Negative\", 0))\nvery_negative = float(data.get(\"average_Very_Negative\", 0))\n\npositive_sum = very_positive + positive\nnegative_sum = negative + very_negative\nneutral_value = neutral\n\nsentiments = {\n    \"positive\": positive_sum,\n    \"negative\": negative_sum,\n    \"neutral\": neutral_value\n}\n\ndominant_sentiment = max(sentiments, key=sentiments.get)\n\nreturn [\n    {\n        \"positive\": positive_sum,\n        \"negative\": negative_sum,\n        \"neutral\": neutral_value,\n        \"dominant_sentiment\": dominant_sentiment,\n        \"score\": sentiments[dominant_sentiment]\n    }\n]\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2336,
+        224
+      ],
+      "id": "636768f7-1636-416a-9c0b-06c49c1a9733",
+      "name": "Code in Python (Beta)"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "18iZnNQu2acAME7AgxIMKLSKSdd765H2kEdhqqYZbh-M",
+          "mode": "list",
+          "cachedResultName": "test",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18iZnNQu2acAME7AgxIMKLSKSdd765H2kEdhqqYZbh-M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Feuille 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1apinODgrd2Sr6dK4JAhUN50xIU-R6wIAkuCOdnsuVVY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "evaluation_id": "={{ $('Edit Fields1').item.json.evaluation_id }}",
+            "sentimet": "={{ $json.dominant_sentiment }}"
+          },
+          "matchingColumns": [
+            "evaluation_id"
+          ],
+          "schema": [
+            {
+              "id": "evaluation_id",
+              "displayName": "evaluation_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "formation_id",
+              "displayName": "formation_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "type_formation",
+              "displayName": "type_formation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "formateur_id",
+              "displayName": "formateur_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "satisfaction",
+              "displayName": "satisfaction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "contenu",
+              "displayName": "contenu",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "logistique",
+              "displayName": "logistique",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "applicabilite",
+              "displayName": "applicabilite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "commentaire",
+              "displayName": "commentaire",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "langue",
+              "displayName": "langue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sentimet",
+              "displayName": "sentimet",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2576,
+        32
+      ],
+      "id": "f5db97bc-8336-4c79-b1d8-7534913e68ff",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "moOuSLQVPKsiDkHA",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://172.23.32.1:8000/sentiment/darija",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": \"{{ $json.commentaire }}\"\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1808,
+        -272
+      ],
+      "id": "e0fca249-ba63-46e3-add4-79ec8049b612",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "192d2275-80ce-469f-b9c6-da75adc730e8",
+              "leftValue": "={{ $json.langue }}",
+              "rightValue": "=DA",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1008,
+        16
+      ],
+      "id": "2b77984c-912c-4bdc-a351-8749e6b39748",
+      "name": "If_darija"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "51f5bee3-cea5-447c-8404-0c41378a6002",
+              "name": "dominant_sentiment",
+              "value": "={{ $json.sentiment.toLowerCase() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2016,
+        -272
+      ],
+      "id": "cc2a32ae-34ae-4bed-b38e-27a7ba5c8235",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1wtgV75fivrMk-QbPD3ThmEmxd8_wRaEIktGmlS0B_WY",
+          "mode": "list",
+          "cachedResultName": "formateur",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wtgV75fivrMk-QbPD3ThmEmxd8_wRaEIktGmlS0B_WY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Feuille 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wtgV75fivrMk-QbPD3ThmEmxd8_wRaEIktGmlS0B_WY/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Nom_Complet",
+              "lookupValue": "={{ $('On form submission').item.json['nom du formateur'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        16,
+        16
+      ],
+      "id": "e170501a-90e3-47d2-b763-6f9bf0177eb3",
+      "name": "Get formateur_id",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "moOuSLQVPKsiDkHA",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "18iZnNQu2acAME7AgxIMKLSKSdd765H2kEdhqqYZbh-M",
+          "mode": "list",
+          "cachedResultName": "test",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18iZnNQu2acAME7AgxIMKLSKSdd765H2kEdhqqYZbh-M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Feuille 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18iZnNQu2acAME7AgxIMKLSKSdd765H2kEdhqqYZbh-M/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        16
+      ],
+      "id": "a7eb58d3-bd45-4d10-81fb-f6e8a083443d",
+      "name": "Get row(s)",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "moOuSLQVPKsiDkHA",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "18iZnNQu2acAME7AgxIMKLSKSdd765H2kEdhqqYZbh-M",
+          "mode": "list",
+          "cachedResultName": "test",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18iZnNQu2acAME7AgxIMKLSKSdd765H2kEdhqqYZbh-M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Feuille 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18iZnNQu2acAME7AgxIMKLSKSdd765H2kEdhqqYZbh-M/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "evaluation_id": "={{ $json.evaluation_id }}",
+            "formation_id": "={{ $json.formation_id }}",
+            "type_formation": "={{ $json.type_formation }}",
+            "formateur_id": "={{ $json.formateur_id }}",
+            "satisfaction": "={{ $json.satisfaction }}",
+            "contenu": "={{ $json.contenu }}",
+            "logistique": "={{ $json.logistique }}",
+            "applicabilite": "={{ $json.applicabilite }}",
+            "commentaire": "={{ $json.commentaire }}",
+            "langue": "={{ $json.langue }}",
+            "date": "={{ $json.submittedAt }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "evaluation_id",
+              "displayName": "evaluation_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "formation_id",
+              "displayName": "formation_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "type_formation",
+              "displayName": "type_formation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "formateur_id",
+              "displayName": "formateur_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "satisfaction",
+              "displayName": "satisfaction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "contenu",
+              "displayName": "contenu",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "logistique",
+              "displayName": "logistique",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "applicabilite",
+              "displayName": "applicabilite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "commentaire",
+              "displayName": "commentaire",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "langue",
+              "displayName": "langue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sentimet",
+              "displayName": "sentimet",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        816,
+        16
+      ],
+      "id": "f607ac52-6ed3-41b0-bca2-52fce8f5554b",
+      "name": "Append row in main sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "moOuSLQVPKsiDkHA",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## sentiment analysis",
+        "height": 736,
+        "width": 1072
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1392,
+        -320
+      ],
+      "typeVersion": 1,
+      "id": "1566f50f-0a78-4c4f-b4b6-4ff0c3a5c6cd",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## data extraction",
+        "height": 240,
+        "width": 976,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -224,
+        -48
+      ],
+      "typeVersion": 1,
+      "id": "18c09ca5-16cc-4ba4-b0ba-7e9b16f84728",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "formation_id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sentiment analysis API": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code in Python (Beta)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in Python (Beta)1": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "formation_id": {
+      "main": [
+        [
+          {
+            "node": "Get formateur_id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "evaluation_id": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Append row in main sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check review": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Sentiment analysis API",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split long review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split long review": {
+      "main": [
+        [
+          {
+            "node": "Sentiment analysis API1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sentiment analysis API1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize": {
+      "main": [
+        [
+          {
+            "node": "Code in Python (Beta)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in Python (Beta)": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If_darija": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get formateur_id": {
+      "main": [
+        [
+          {
+            "node": "Get row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s)": {
+      "main": [
+        [
+          {
+            "node": "evaluation_id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in main sheet": {
+      "main": [
+        [
+          {
+            "node": "If_darija",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6c61f097-daf2-45fd-81f6-68f4fe76bcd8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8f024fef56f7931dbedca62852bab47a2e1dd51e2e69a94547a58e441bb5489e"
+  },
+  "id": "82vuNV80DFRxPxIg",
+  "tags": []
+}

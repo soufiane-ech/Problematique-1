@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+transformers==4.30.2
+pydantic
+torch==2.0.1+cpu
